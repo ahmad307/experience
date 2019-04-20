@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Experience</title>
+</head>
+<body>
+
+<div class="jumbotron">
+    <form action="/stories/login" method="post">
+        {% csrf_token %}
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+        <button type="submit" id="login">Login</button>
+    </form>
+    <form action="/stories/register" method="get">
+        <button type="submit" id="register">Register</button>
+    </form>
+</div>
+
+</body>
+</html>
