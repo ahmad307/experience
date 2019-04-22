@@ -5,13 +5,22 @@ db = client.experience
 
 
 def add_user(name, email, password):
+    """
+    Adds a new user to the database.
+    Returns: True if successful.
+    Returns: False if user already exists.
+    """
     users = db.Users
+    if users.find({'email': email}).count() > 0:
+        return False
+
     user = {
         'name': name,
         'email': email,
         'password': password,
         'articles': []}
     users.insert(user)
+    return True
 
 
 def add_category(name):
@@ -62,3 +71,16 @@ def user_valid(email, password):
         return True
     else:
         return False
+
+
+def get_user_data(email):
+    """
+    Gets a specific user articles.
+    :param email: User email.
+    :return: Dictionary containing user's name and
+     a cursor object containing user articles.
+    """
+    user = db.Users.find({'email': email})[0]
+    articles = db.Articles.find({'_id': {'$in': user['articles']}})
+    data = {'name': user['name'], 'articles': articles}
+    return data

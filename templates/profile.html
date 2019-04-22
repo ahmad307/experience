@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
-    <title>Experience</title>
+    <title>{{ name }}</title>
 </head>
 <body>
 <!-- Navigation bar -->
@@ -14,22 +14,21 @@
     <li><a id="greenBtn"  href="#" style="color:green">Green</a></li>
     <li id="theTitle"><a style="color: #d54d7b;" href="/">Experience</a></li>
 </ul>
-
-<div class="jumbotron">
-    <div class="row">
-        <form action="/stories/login" method="post">
-            {% csrf_token %}
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            <button type="submit" id="login">Login</button>
-        </form>
-        <form action="/stories/register" method="get">
-            <button type="submit" id="register">Register</button>
-        </form>
-    </div>
-    <h6>{{ error_message }}</h6>
-</div>
+<h2>{{ name }}'s Articles</h2>
+{% if articles.count == 0 %}
+    <h4>No Articles Yet.</h4>
+{% else %}
+    <ul>
+        {% for article in articles %}
+            <li>
+              <h3>{{ article.title }}</h3>
+              <p style="text-overflow: ellipsis">{{ article.body }}</p>
+            </li>
+        {% endfor %}
+{% endif %}
+</ul>
+<form action="/stories/create_article" method="get">
+    <button type="submit">Create an Article</button>
+</form>
 </body>
 </html>

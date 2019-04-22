@@ -3,10 +3,11 @@
 <head>
     {% load staticfiles %}
     <meta charset="UTF-8">
+    <title>Create Article</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
-    <title>Experience</title>
 </head>
+<!--TODO: Add article options-->
 <body>
 <!-- Navigation bar -->
 <ul>
@@ -16,20 +17,14 @@
 </ul>
 
 <div class="jumbotron">
-    <div class="row">
-        <form action="/stories/login" method="post">
-            {% csrf_token %}
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            <button type="submit" id="login">Login</button>
-        </form>
-        <form action="/stories/register" method="get">
-            <button type="submit" id="register">Register</button>
-        </form>
-    </div>
-    <h6>{{ error_message }}</h6>
+    <form action="/stories/create_article" method="get">
+        <label for="title">Article Title</label><br>
+        <input type="text" name="title" id="title"><br>
+        <label for="body">Body</label><br>
+        <textarea name="body" id="body"></textarea><br>
+        <button type="submit">Add</button>
+    </form>
 </div>
 </body>
+<script></script>
 </html>

@@ -4,7 +4,8 @@ from stories.models import (
     add_article,
     add_user,
     delete_user,
-    user_valid)
+    user_valid,
+    get_user_data)
 
 
 def home(request):
@@ -19,14 +20,29 @@ def register(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
 
-    add_user(name, email, password)
-    return HttpResponse('Registered!')
+    if add_user(name, email, password):
+        return render(request, 'login.html',
+                      {'reg_msg': 'Successfully Registered.'})
+    else:
+        return HttpResponse('Email Already Used.')
 
 
 def login(request):
-    email = request.POST.get('email')
-    password = request.POST.get('password')
+    """
+    Authenticates user and redirects to user profile.
+    :return:
+        - User profile page if authentication succeeds.
+        - Login page with error msg dict.
+    """
+    email = request.POST['email']
+    password = request.POST['password']
     if user_valid(email, password):
-        return HttpResponse('Logged In')
+        return render(request, 'profile.html', get_user_data(email))
     else:
-        return HttpResponse('Login Failed.')
+        return render(request, 'login.html', {'error_message': 'Login Failed.'})
+
+
+def create_article(request):
+    # TODO: Handle create article requests
+    if request.method == 'GET':
+        return render(request, 'new_article.html')
