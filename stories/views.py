@@ -46,4 +46,4 @@ def login(request):
 def create_article(request):
     # TODO: Handle create article requests
     if request.method == 'GET':
-        return render(request, 'new_article.html')
+        return render(request, 'new_article.html', {'user_name': 'Ahmad'})
