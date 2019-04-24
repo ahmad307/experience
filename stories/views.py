@@ -22,7 +22,7 @@ def register(request):
 
     if add_user(name, email, password):
         return render(request, 'login.html',
-                      {'reg_msg': 'Successfully Registered.'})
+                      {'response_message': 'Successfully Registered.'})
     else:
         return HttpResponse('Email Already Used.')
 
@@ -39,7 +39,8 @@ def login(request):
     if user_valid(email, password):
         return render(request, 'profile.html', get_user_data(email))
     else:
-        return render(request, 'login.html', {'error_message': 'Login Failed.'})
+        return render(request, 'login.html',
+                      {'response_message': 'Login Failed.'})
 
 
 def create_article(request):

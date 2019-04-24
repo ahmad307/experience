@@ -7,10 +7,11 @@ db = client.experience
 def add_user(name, email, password):
     """
     Adds a new user to the database.
-    Returns: True if successful.
-    Returns: False if user already exists.
+    :return: True if successful.
+    :return: False if user already exists.
     """
     users = db.Users
+    # Prevent creating a user with a pre-existing email
     if users.find({'email': email}).count() > 0:
         return False
 
@@ -64,10 +65,9 @@ def delete_user(email):
 
 
 def user_valid(email, password):
-    # Todo : ensure email uniqueness
     users = db.Users
     user = users.find({'email': email})
-    if user.count() and user[0]['password'] == password:
+    if user.count() > 0 and user[0]['password'] == password:
         return True
     else:
         return False
