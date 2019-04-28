@@ -7,7 +7,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
 </head>
-<!--TODO: Add article options-->
 <body>
 <!-- Navigation bar -->
 <ul>
@@ -17,15 +16,18 @@
 </ul>
 
 <div class="jumbotron">
-    <form action="/stories/create_article" method="get">
+    <form action="/stories/create_article" method="post">
+        {% csrf_token %}
+        <input hidden id="session_id" name="session_id" value="{{ session_id }}">
         <div>
+            <!-- TODO: Sometimes title and topic overlap. -->
             <label for="category">Category</label>
-            <select id="category">
+            <select id="category" name="category">
                 <option>Problem/Issue</option>
                 <option>Place/Location</option>
             </select>
             <label for="topic">Topic</label>
-            <select id="topic"></select>
+            <select id="topic" name="topic"></select>
         </div>
         <div>
             <label for="title">Article Title</label><br>

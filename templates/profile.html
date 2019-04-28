@@ -28,6 +28,7 @@
 {% endif %}
 </ul>
 <form action="/stories/create_article" method="get">
+    <input hidden id="session_id" name="session_id" value="{{ session_id }}">
     <button type="submit">Create an Article</button>
 </form>
 </body>

@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 client = MongoClient('localhost', 27017)
 db = client.experience
@@ -29,7 +30,7 @@ def add_category(name):
     categories.insert({'name': name, 'articles': []})
 
 
-def add_article(title, body, category, topic, user_name):
+def add_article(title, body, category, topic, email):
     article = {
         'title': title,
         'body': body,
@@ -45,7 +46,7 @@ def add_article(title, body, category, topic, user_name):
 
     article_id = articles.insert(article)
     # Add the article key to its owner user and its category
-    users.update({'name': user_name},
+    users.update({'email': email},
                  {'$addToSet': {'articles': article_id}})
     categories.update({'name': category},
                       {'$addToSet': {'articles': article_id}})
@@ -84,3 +85,18 @@ def get_user_data(email):
     articles = db.Articles.find({'_id': {'$in': user['articles']}})
     data = {'name': user['name'], 'articles': articles}
     return data
+
+
+def add_session(email):
+    """Creates a user session."""
+    session_id = db.Sessions.insert({'user_email': email})
+    return session_id
+
+
+def get_session_email(session_id):
+    return db.Sessions.find({'_id': ObjectId(session_id)})[0]['user_email']
+
+
+def get_session_username(session_id):
+    email = db.Sessions.find({'_id': ObjectId(session_id)})[0]['user_email']
+    return db.Users.find({'email': email})[0]['name']

@@ -5,7 +5,10 @@ from stories.models import (
     add_user,
     delete_user,
     user_valid,
-    get_user_data)
+    get_user_data,
+    add_session,
+    get_session_email,
+    get_session_username)
 
 
 def home(request):
@@ -37,13 +40,33 @@ def login(request):
     email = request.POST['email']
     password = request.POST['password']
     if user_valid(email, password):
-        return render(request, 'profile.html', get_user_data(email))
+        session_id = add_session(email)
+        data = get_user_data(email)
+        data.update({'session_id': session_id})
+        return render(request, 'profile.html', data)
     else:
         return render(request, 'login.html',
                       {'response_message': 'Login Failed.'})
 
 
 def create_article(request):
-    # TODO: Handle create article requests
+    """
+    Creates an article or redirects to create article page.
+    :param request: GET, redirects to create_article template
+    :param request: POST, adds the new article to database.
+    :return: None
+    """
     if request.method == 'GET':
-        return render(request, 'new_article.html', {'user_name': 'Ahmad'})
+        user_name = get_session_username(request.GET['session_id'])
+        data = {'user_name': user_name, 'session_id': request.GET['session_id']}
+        return render(request, 'new_article.html', data)
+
+    email = get_session_email(request.POST['session_id'])
+    add_article(
+        request.POST['title'],
+        request.POST['body'],
+        request.POST['category'],
+        request.POST['topic'],
+        email)
+
+    return HttpResponse('Article Created.')
