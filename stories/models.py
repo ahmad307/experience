@@ -100,3 +100,7 @@ def get_session_email(session_id):
 def get_session_username(session_id):
     email = db.Sessions.find({'_id': ObjectId(session_id)})[0]['user_email']
     return db.Users.find({'email': email})[0]['name']
+
+
+def get_all_articles():
+    return db.Articles.find({})

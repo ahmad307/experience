@@ -36,16 +36,14 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
+            <form id="home_form" action="/stories/get_home" method="get"></form>
+            <a onclick="$('#home_form').submit()" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="about.html">Articles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="post.html">Sample Post</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.html">Contact</a>
+            <a class="nav-link" href="post.html">Profile</a>
           </li>
         </ul>
       </div>
@@ -76,14 +74,16 @@
         <form action="/stories/create_article" method="post">
           {% csrf_token %}
           <input type="text" name="session_id" value="{{ session_id }}" hidden>
-          <div class="control-group">
+          <div>
               <label for="category">Category</label>
               <select id="category" name="category">
-                  <option>Problem/Issue</option>
-                  <option>Place/Location</option>
+                  <option>Problems/Issues</option>
+                  <option>Places/Locations</option>
               </select>
               <label for="topic">Topic</label>
               <select id="topic" name="topic"></select>
+          </div>
+          <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Title</label>
               <input type="text" class="form-control" placeholder="Title" name="title" id="title" required data-validation-required-message="Please enter the article's title.">
@@ -164,7 +164,7 @@ function setTitle() {
     * and topic.
     */
     let title = $('#title');
-    if ($('#category option:selected').text() === 'Place/Location') {
+    if ($('#category option:selected').text() === 'Places/Locations') {
         let str = user_name + "'s ";
         str += 'Experience in ' + $('#topic option:selected').text();
         title.val(str);
@@ -179,7 +179,7 @@ $(document).ready(function () {
     fillTopics(problem_topics);
 
     $('#category').on('change', function () {
-        if (this.value === 'Place/Location')
+        if (this.value === 'Places/Locations')
             fillTopics(places_topics);
         else
             fillTopics(problem_topics);
@@ -190,4 +190,16 @@ $(document).ready(function () {
     });
 });
 </script>
+<style>
+select {
+  width: 180px;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+</style>
 </html>

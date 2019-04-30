@@ -28,7 +28,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+      <a class="navbar-brand" href="index.html">Experience</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -36,16 +36,14 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
+            <form id="home_form" action="/stories/get_home" method="get"></form>
+            <a onclick="$('#home_form').submit()" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="about.html">Articles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="post.html">Sample Post</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.html">Contact</a>
+            <a class="nav-link" href="post.html">Profile</a>
           </li>
         </ul>
       </div>
@@ -59,7 +57,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
-            <h1>What's Your Experience?</h1>
+            <h1>What's Your Latest Experience?</h1>
             <span class="subheading"></span>
           </div>
         </div>
@@ -73,15 +71,15 @@
       <div class="col-lg-8 col-md-10 mx-auto">
           <h1>{{ name }}'s Experiences</h1>
             {% if articles.count == 0 %}
-                <h4>No Articles Yet.</h4>
+                <h4>No Posts Yet.</h4>
             {% else %}
                 {% for article in articles %}
                     <div class="post-preview">
-                      <a href="post.html">
-                        <h2 class="post-title">
+                      <a href="#">
+                        <h3 class="post-title">
                           {{ article.title }}
-                        </h2>
-                        <h4 class="post-subtitle" style="text-overflow: ellipsis">
+                        </h3>
+                        <h4 class="post-subtitle" style="text-overflow: ellipsis !important;">
                           {{ article.body }}
                         </h4>
                       </a>
@@ -108,7 +106,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <ul class="list-inline text-center">
             <li class="list-inline-item">
-              <a href="https://github.com/ahmad307">
+              <a href="https://github.com/ahmad307/experience">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-github fa-stack-1x fa-inverse"></i>

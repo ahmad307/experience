@@ -8,7 +8,8 @@ from stories.models import (
     get_user_data,
     add_session,
     get_session_email,
-    get_session_username)
+    get_session_username,
+    get_all_articles)
 
 
 def home(request):
@@ -24,8 +25,10 @@ def register(request):
     password = request.POST.get('password')
 
     if add_user(name, email, password):
-        return render(request, 'stories/login.html',
-                      {'response_message': 'Successfully Registered.'})
+        session_id = add_session(email)
+        data = get_user_data(email)
+        data.update({'session_id': session_id})
+        return render(request, 'stories/profile.html', data)
     else:
         return HttpResponse('Email Already Used.')
 
@@ -54,7 +57,6 @@ def create_article(request):
     Creates an article or redirects to create article page.
     :param request: GET, redirects to create_article template
     :param request: POST, adds the new article to database.
-    :return: None
     """
     if request.method == 'GET':
         user_name = get_session_username(request.GET['session_id'])
@@ -69,4 +71,14 @@ def create_article(request):
         request.POST['topic'],
         email)
 
-    return HttpResponse('Article Created.')
+    data = {'session_id': request.POST['session_id'],
+            'title': request.POST['title'],
+            'body': request.POST['body'],
+            'username': get_session_username(request.POST['session_id'])}
+    return render(request, 'stories/article.html', data)
+
+
+def index(request):
+    if request.method == 'GET':
+        articles = get_all_articles()
+        return render(request, 'stories/index.html', {'articles': articles})
