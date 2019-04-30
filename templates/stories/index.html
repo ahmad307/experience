@@ -58,7 +58,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
             <h1>Experience</h1>
-            <span class="subheading">A place to share challenges, journeys and life lessons</span>
+            <span class="subheading">Experiences From All Around</span>
           </div>
         </div>
       </div>
@@ -86,6 +86,10 @@
                   {{ article.body }}
                 </h3>
               </a>
+              <div class="row">
+                  <div class="arrow-up"></div>
+                  <div class="arrow-down"></div>
+              </div>
             </div>
             <hr>
           {% endfor %}
@@ -147,6 +151,22 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+
+  border-bottom: 10px solid black;
+}
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+
+  border-top: 10px solid #f00;
 }
 </style>
 </html>
