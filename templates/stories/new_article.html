@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Experience</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Experience</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="post.html">Sample Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url({% static 'img/contact-bg.jpg' %})">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Defeated a problem? Or Was It a Memorable Place?</h1>
+            <span class="subheading"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <section id="main">
+  <div id="main" class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form action="/stories/create_article" method="post">
+          {% csrf_token %}
+          <input type="text" name="session_id" value="{{ session_id }}" hidden>
+          <div class="control-group">
+              <label for="category">Category</label>
+              <select id="category" name="category">
+                  <option>Problem/Issue</option>
+                  <option>Place/Location</option>
+              </select>
+              <label for="topic">Topic</label>
+              <select id="topic" name="topic"></select>
+            <div class="form-group floating-label-form-group controls">
+              <label>Title</label>
+              <input type="text" class="form-control" placeholder="Title" name="title" id="title" required data-validation-required-message="Please enter the article's title.">
+              <p class="help-block text-danger"></p>
+              <label>Body</label>
+              <input type="text" class="form-control" placeholder="body" name="body" required data-validation-required-message="Please enter the article's body.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <br>
+          <div id="success"></div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+        <h6>{{ response_message }}</h6>
+      </div>
+    </div>
+  </div>
+  </section>
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="https://github.com/ahmad307/experience">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Experience 2019</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Contact Form JavaScript -->
+  <script src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+  <script src="{% static 'js/contact_me.js' %}"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="{% static 'js/clean-blog.min.js' %}"></script>
+</body>
+
+<script type="text/javascript">
+let user_name = "{{ user_name }}";
+const problem_topics = [
+    "Cancer",
+    "Anxiety",
+    "Work Stress",
+    "Impost Syndrome"
+];
+const places_topics = [
+    "Cairo",
+    "New York City",
+    "Shanghai"
+];
+function fillTopics(topics) {
+    $('#topic').empty();
+    for (let i = 0; i < topics.length; i++) {
+        $('#topic').append('<option>' + topics[i] + '</option>');
+    }
+}
+function setTitle() {
+    /*
+    * Sets appropriate title according to chosen category
+    * and topic.
+    */
+    let title = $('#title');
+    if ($('#category option:selected').text() === 'Place/Location') {
+        let str = user_name + "'s ";
+        str += 'Experience in ' + $('#topic option:selected').text();
+        title.val(str);
+    } else {
+        let str = 'How ' + user_name + ' Dealt With ' +
+            $('#topic option:selected').text();
+        title.val(str);
+    }
+}
+$(document).ready(function () {
+    // Set topic initial options
+    fillTopics(problem_topics);
+
+    $('#category').on('change', function () {
+        if (this.value === 'Place/Location')
+            fillTopics(places_topics);
+        else
+            fillTopics(problem_topics);
+        setTitle();
+    });
+    $('#topic').on('change', function () {
+        setTitle();
+    });
+});
+</script>
+</html>

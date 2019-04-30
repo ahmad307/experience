@@ -12,19 +12,19 @@ from stories.models import (
 
 
 def home(request):
-    return render(request, 'login.html')
+    return render(request, 'stories/login.html')
 
 
 def register(request):
     if request.method == 'GET':
-        return render(request, 'registration.html')
+        return render(request, 'stories/registration.html')
 
     name = request.POST.get('name')
     email = request.POST.get('email')
     password = request.POST.get('password')
 
     if add_user(name, email, password):
-        return render(request, 'login.html',
+        return render(request, 'stories/login.html',
                       {'response_message': 'Successfully Registered.'})
     else:
         return HttpResponse('Email Already Used.')
@@ -43,9 +43,9 @@ def login(request):
         session_id = add_session(email)
         data = get_user_data(email)
         data.update({'session_id': session_id})
-        return render(request, 'profile.html', data)
+        return render(request, 'stories/profile.html', data)
     else:
-        return render(request, 'login.html',
+        return render(request, 'stories/login.html',
                       {'response_message': 'Login Failed.'})
 
 
@@ -59,7 +59,7 @@ def create_article(request):
     if request.method == 'GET':
         user_name = get_session_username(request.GET['session_id'])
         data = {'user_name': user_name, 'session_id': request.GET['session_id']}
-        return render(request, 'new_article.html', data)
+        return render(request, 'stories/new_article.html', data)
 
     email = get_session_email(request.POST['session_id'])
     add_article(
